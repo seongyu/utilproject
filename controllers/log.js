@@ -67,7 +67,7 @@ var err_log = function(req,res){
 
 var mkdir_info = function(dir_path){
     var log_path = infoRootPath+'/'+dir_path,
-        file_name = log_path+'/info.'+moment().format('YYYY-MM-DD')+'.log';
+        file_name = log_path+'/'+moment().format('YYYY-MM-DD')+'.log';
 
     fs.existsSync(log_path) || fs.mkdirSync(log_path);
 
@@ -76,7 +76,7 @@ var mkdir_info = function(dir_path){
 
 var mkdir_err = function(dir_path){
     var log_path = errRootPath+'/'+dir_path,
-        file_name = log_path+'/error.'+moment().format('YYYY-MM-DD')+'.log';
+        file_name = log_path+'/'+moment().format('YYYY-MM-DD')+'.log';
 
     fs.existsSync(log_path) || fs.mkdirSync(log_path);
 
