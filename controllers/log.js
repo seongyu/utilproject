@@ -12,6 +12,11 @@ fs.existsSync(errRootPath) || fs.mkdirSync(errRootPath);
 exports.log = function(req,res){
     var param = req.query;
 
+    if(!param.service){
+        res.send();
+        return;
+    }
+
     if(param.type=='error'){
         err_filename = mkdir_err(param.service);
         err_logger = new winston.Logger({
