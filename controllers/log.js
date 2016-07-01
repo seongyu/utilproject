@@ -5,7 +5,11 @@ var winston = require('winston'),
     moment = require('moment'),
     fs = require('fs');
 
-var infoRootPath =  './log', errRootPath =  './error',info_filename, err_filename,info_logger,err_logger;
+var rootPath = '../log_data',
+    infoRootPath =  rootPath+'/log',
+    errRootPath =  rootPath+'/error',
+    info_filename, err_filename,info_logger,err_logger;
+fs.existsSync(rootPath) || fs.mkdirSync(rootPath);
 fs.existsSync(infoRootPath) || fs.mkdirSync(infoRootPath);
 fs.existsSync(errRootPath) || fs.mkdirSync(errRootPath);
 
