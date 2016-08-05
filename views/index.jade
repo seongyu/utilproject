@@ -2,4 +2,8 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
+  p= content
+  ui
+   each val in ip
+    li= val
+  div It is connected with... => #{target}

@@ -1,25 +1,30 @@
 var express = require('express');
 var router = express.Router();
-var logger = require('../controllers/log');
+var util = require('../lib/util'),
+    config = require('../config'),
+    onCtrl = require('../controllers/on'),
+    colCtrl = require('../controllers/collect');
 
 /* GET home page. */
-router.post('/log', function(req, res, next) {
-  logger.log(req,res);
+router.get('/',function(req,res){
+  indexCtrl(req,res);
 });
 
+router
+    .get('/on',onCtrl.getOn)
+    .post('/collect',colCtrl.postCollect);
+
+
+
+var indexCtrl = function(req,res){
+  util.getIP(function(ip){
+    res.render('index',{
+      title : 'IoT_Connector',
+      content : 'IoT Connector ready to work on...',
+      ip : ip,
+      target : config.targetDNS
+    });
+  });
+};
+
 module.exports = router;
-
-/*
-
-get parameter
--------------
-type = info / error / warning etc... , error의 경우만 error폴더에 쌓임
-service = moduApp / moduAdmin / bukchon etc... , service명에 따라 폴더 구분
-
-post parameter
--------------
-ip = sender ip or dns
-url = request url
-method = get/post/put/delete
-param = parameter on method
-*/
