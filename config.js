@@ -66,7 +66,7 @@ exports.server = function(fn){
         });
 
         app.listen(exports.port,function(){
-            console.log('Successfully server started... : '+exports.port);
+            console.log('Successfully server started... : '+exports.port+' as '+process.env.NODE_ENV);
         });
     })
 };

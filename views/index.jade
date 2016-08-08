@@ -2,8 +2,9 @@ extends layout
 
 block content
   h1= title
+  h4 Service Mode => #{service}
   p= content
   ui
    each val in ip
     li= val
-  div It is connected with... => #{target}
+  p Device is looking for... => #{target}
