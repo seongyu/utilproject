@@ -25,13 +25,14 @@ exports.getOn = function(req,res){
     request({
         url : config.targetDNS+'collect',
         method : 'post',
-        qs : vaildParam
+        qs : vaildParam //send as getParameter
+        // form : {} //send as postParameter
     },function(err,response,body){
         if(err){
+            console.log('Error...=> '+err);
             res.send(err);
             return;
         }
-        console.log(body);
         res.send(body)
     });
 };

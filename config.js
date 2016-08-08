@@ -4,10 +4,10 @@
 exports.parkinglotSeq = 'undefined_park';
 exports.port = 9001;
 exports.targetDNS = 'http://localhost:9001/';
-exports.mode = 'development';
+
+process.env.NODE_ENV = process.env.NODE_ENV? process.env.NODE_ENV : 'development';
 
 var express = require('express'),
-    customLog = require('./lib/database'),
     customLog = require('./lib/log'),
     path = require('path'),
     logger = require('morgan'),

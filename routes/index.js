@@ -19,10 +19,11 @@ router
 var indexCtrl = function(req,res){
   util.getIP(function(ip){
     res.render('index',{
-      title : 'IoT_Connector',
-      content : 'IoT Connector ready to work on...',
-      ip : ip,
-      target : config.targetDNS
+        title : 'IoT_Connector',
+        content : 'IoT Connector ready to work on...',
+        ip : ip,
+        service : process.env.NODE_ENV,
+        target : config.targetDNS
     });
   });
 };

@@ -22,7 +22,7 @@ exports.postCollect = function(req,res){
                     resultCode:200,
                     data:{
                         isUser : true,
-                        condition : rt.condition?rt.condition : false
+                        isAllow : rt.isAllow?rt.isAllow : false
                     }
                 };
             }else {
