@@ -12,7 +12,7 @@ router.get('/',function(req,res){
 
 router
     .get('/on',onCtrl.getOn)
-    .post('/collect',colCtrl.postCollect);
+    .post('/parking/:uuid/collect',colCtrl.postCollect);
 
 
 

@@ -16,21 +16,19 @@ var request = require('request'),
     uuid 생성용 코드 작성
      => 처음 서버 실행 시 생성, 만약 없으면 생성, 있으면 있는거 사용
      ==> 파일로 적어놓는 걸로...
-
   }
  */
 exports.getOn = function(req,res){
     var param = req.query;
 
     var vaildParam = {
-        parkinglotSeq : param.parkinglotSeq?param.parkinglotSeq : config.parkinglotSeq,
         statusCode : param.statusCode?param.statusCode:20,
         carNum : param.carNum?param.carNum:'서울11가1111',
         date : param.date?moment(param.date).toJSON():moment().toJSON()
     };
 
     request({
-        url : config.targetDNS+'collect',
+        url : config.targetDNS+'parking/'+config.uuid+'/collect',
         method : 'post',
         qs : vaildParam //send as getParameter
         // form : {} //send as postParameter

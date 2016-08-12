@@ -5,6 +5,8 @@ var collect_model = require('../models/collect');
 
 exports.postCollect = function(req,res){
     var param = req.query;
+    var query = req.params;
+    var uuid = query.uuid;
     console.log('catch request...');
     console.log('collect parking data...');
     console.log('.');
