@@ -4,6 +4,7 @@
 var request = require('request'),
     moment = require('moment'),
     config = require('../config');
+
 /*
   param : {
     statusCode : Number   20 => in , 30 => out
@@ -17,7 +18,8 @@ var request = require('request'),
      => 처음 서버 실행 시 생성, 만약 없으면 생성, 있으면 있는거 사용
      ==> 파일로 적어놓는 걸로...
   }
- */
+*/
+
 exports.getOn = function(req,res){
     var param = req.query;
 
@@ -40,9 +42,4 @@ exports.getOn = function(req,res){
         }
         res.send(body)
     });
-};
-
-exports.create = function(req,res){
-    // mac-address ==> ???
-
 };

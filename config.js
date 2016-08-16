@@ -1,10 +1,10 @@
-/**
- * Created by LeonKim on 16. 8. 4..
- */
-exports.parkinglotSeq = 'undefined_park';
+'use strict';
+
+exports.parkinglotSeq = '111810';
 exports.port = 9001;
-exports.targetDNS = 'http://localhost:9001/';
+exports.targetDNS = 'http://52.68.215.38:9001/';
 exports.deviceType = 'lpr';
+exports.mongodb = 'mongodb://52.68.215.38:27017/iot-mongo';
 exports.uuid = null;
 
 process.env.NODE_ENV = process.env.NODE_ENV? process.env.NODE_ENV : 'development';
@@ -18,6 +18,7 @@ var express = require('express'),
     methodOverride = require('method-override'),
     promise = require('q'),
     fs = require('fs'),
+    mongoose = require('mongoose'),
     moment = require('moment'),
     public_model = require('./models/public'),
     uuid = require('node-uuid');
@@ -148,6 +149,12 @@ exports.server = function(fn){
                 }catch(exception){
                     console.log('Catched Error => '+exception)
                 }
+            });
+            mongoose.connect(exports.mongodb, function(err) {
+                if (err) {
+                    console.log(chalk.red('Could not connect to MongoDB!'));
+                }
+                console.log('Successfully connected witeh... : '+exports.mongodb);
             });
 
             app.set('views', path.join(__dirname, 'views'));

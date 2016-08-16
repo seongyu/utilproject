@@ -7,7 +7,7 @@ exports.checkCarNum = function(param){
     sql = 'select * from tblCar ' +
     'join tblUser on tblCar.userSeq = tblUser.userSeq ' +
     'where tblCar.carNum like ? ' +
-    'and tblCar.status = 1 and tblUser.status = 1;';
+    'and tblCar.status = 1 and tblUser.status = 1 limit 1;';
     var getParam = [param.carNum];
     return Mysql.db_mysql(sql,getParam);
 };

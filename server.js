@@ -1,5 +1,4 @@
-var express = require('express'),
-    routes = require('./routes/index'),
+var routes = require('./routes/index'),
     config = require('./config.js');
 
 
