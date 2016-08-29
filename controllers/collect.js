@@ -18,6 +18,7 @@ exports.postCollect = function(req,res){
     var uuid = query.uuid;
     var carNum = param.carNum;
     var statusCode = param.statusCode;
+
     public_model.getDeviceKey(uuid)
         .then(function(rtn){
             var parkinglotSeq = rtn[0].parkinglotSeq;
@@ -30,12 +31,11 @@ exports.postCollect = function(req,res){
                 carNum : carNum,
                 statusCode : param.statusCode
             };
-            delete param.parkinglotSeq;
-            delete param.carNum;
-            delete param.statusCode;
-            if(Object.keys(param).length>0){
-             logData.message = JSON.stringify(param);
+
+            if(param.message){
+                logData.message = param.message;
             }
+
             createLog(logData)
                 .then(function(rtn){
                     collect_model.checkCarNum(chkParam)

@@ -29,6 +29,14 @@ exports.getOn = function(req,res){
         date : param.date?moment(param.date).toJSON():moment().toJSON()
     };
 
+    delete param.statusCode;
+    delete param.carNum;
+    delete param.date;
+
+    if(Object.keys(param).length>0){
+        vaildParam.message = JSON.stringify(param);
+    }
+
     request({
         url : config.targetDNS+'parking/'+config.uuid+'/collect',
         method : 'post',
