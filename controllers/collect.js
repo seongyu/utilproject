@@ -13,7 +13,7 @@ var collect_model = require('../models/collect'),
  그 이외 json.stringify
  */
 exports.postCollect = function(req,res){
-    var param = req.query;
+    var param = req.body;
     console.log(param);
     var uuid = req.params.uuid;
     var carNum = param.carNum;
