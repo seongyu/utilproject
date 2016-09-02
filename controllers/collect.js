@@ -14,8 +14,8 @@ var collect_model = require('../models/collect'),
  */
 exports.postCollect = function(req,res){
     var param = req.query;
-    var query = req.params;
-    var uuid = query.uuid;
+    console.log(param);
+    var uuid = req.params.uuid;
     var carNum = param.carNum;
     var statusCode = param.statusCode;
 
@@ -27,9 +27,10 @@ exports.postCollect = function(req,res){
                 carNum : carNum
             };
             var logData = {
-                parkinglotSeq : parkinglotSeq,
+                parkinglotSeq : parkinglotSeq?parkinglotSeq:param.parkinglotSeq,
+                uuid:uuid,
                 carNum : carNum,
-                statusCode : param.statusCode
+                statusCode : statusCode
             };
 
             if(param.message){

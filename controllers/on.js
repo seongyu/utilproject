@@ -26,12 +26,12 @@ exports.getOn = function(req,res){
     var vaildParam = {
         statusCode : param.statusCode?param.statusCode:20,
         carNum : param.carNum?param.carNum:'서울11가1111',
-        date : param.date?moment(param.date).toJSON():moment().toJSON()
+        timestamp : param.timestamp?moment(param.timestamp).toJSON():moment().toJSON()
     };
 
     delete param.statusCode;
     delete param.carNum;
-    delete param.date;
+    delete param.timestamp;
 
     if(Object.keys(param).length>0){
         vaildParam.message = JSON.stringify(param);
@@ -49,5 +49,21 @@ exports.getOn = function(req,res){
             return;
         }
         res.send(body)
+    });
+};
+
+exports.postOn = function(req,res){
+    var param = req.body;
+
+    console.log('Send Acting to Device-----');
+    console.log('.');
+    console.log('.');
+    console.log('.');
+    console.log('.');
+    console.log('-----get Result of Action.');
+
+    res.send({
+        resultCode : param.resultCode, //resultCode Of Acton
+        message : param.message        //detail of Action
     });
 };
