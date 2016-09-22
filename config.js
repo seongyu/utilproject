@@ -28,8 +28,8 @@ var express = require('express'),
 var enrollDevice = function(){
     var defer = promise.defer();
 
-    if(fs.existsSync('./registration')){
-        fs.readFile('./registration','utf8',function(err,data){
+    if(fs.existsSync('registration')){
+        fs.readFile('registration','utf8',function(err,data){
             if(err){
                 defer.reject('Can not read UUID')
             }
@@ -58,12 +58,12 @@ var enrollDevice = function(){
             id : uuid.v1({msecs: new Date().getTime()}),
             timestamp : moment().toJSON()
         };
-        fs.writeFile('./registration', JSON.stringify(writeData), function(err){
+        fs.writeFile('registration', JSON.stringify(writeData), function(err){
             if(err){
                 defer.reject('Can not create UUID');
                 return;
             }
-            fs.readFile('./registration','utf8',function(err,data){
+            fs.readFile('registration','utf8',function(err,data){
                 if(err){
                     defer.reject('Can not read UUID')
                 }
@@ -128,7 +128,7 @@ var registToS = function(uuid){
 
 var delReg = function(){
     console.log('----장비가 훼손되었거나 정보가 잘못되었습니다\n다시 등록하시기 바랍니다.');
-    fs.unlink('./registration',function(){
+    fs.unlink('registration',function(){
         process.exit(1);
     })
 };
