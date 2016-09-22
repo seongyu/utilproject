@@ -4,13 +4,20 @@
 
 var Mysql = require('../lib/database'),sql='';
 
-exports.getDeviceKey = function(uuid){
+exports.getDeviceKey = function(param){
     var sql = 'select * from parking_iot.tblIotDevice where ?';
-    var getParam = {deviceKey:uuid};
-    return Mysql.db_mysql(sql,getParam);
+    return Mysql.db_mysql(sql,param);
 };
 
-exports.setDeviceKey = function(param){
+exports.udtDeviceKey = function(param){
+    var sql = 'update parking_iot.tblIotDevice set ? where ?';
+    param.modifyDate = param.regDate;
+    delete param.regDate;
+    var updateParam = [param,{parkinglotSeq:param.parkinglotSeq}];
+    return Mysql.db_mysql(sql,updateParam,'u')
+};
+
+exports.crtDeviceKey = function(param){
     var sql = 'insert into parking_iot.tblIotDevice values(null,?,?,?,?,?,?,null)';
     var updateParam = [
         param.parkinglotSeq?param.parkinglotSeq:null,
@@ -18,7 +25,7 @@ exports.setDeviceKey = function(param){
         param.deviceType,
         param.deviceDesc?param.deviceDesc:null,
         param.use_yn?param.use_yn:'Y',
-        param.reg_date
+        param.regDate
     ];
     return Mysql.db_mysql(sql,updateParam,'u')
 };

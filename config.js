@@ -28,8 +28,8 @@ var express = require('express'),
 var enrollDevice = function(){
     var defer = promise.defer();
 
-    if(fs.existsSync('registration')){
-        fs.readFile('registration','utf8',function(err,data){
+    if(fs.existsSync('./registration')){
+        fs.readFile('./registration','utf8',function(err,data){
             if(err){
                 defer.reject('Can not read UUID')
             }
@@ -58,12 +58,12 @@ var enrollDevice = function(){
             id : uuid.v1({msecs: new Date().getTime()}),
             timestamp : moment().toJSON()
         };
-        fs.writeFile('registration', JSON.stringify(writeData), function(err){
+        fs.writeFile('./registration', JSON.stringify(writeData), function(err){
             if(err){
                 defer.reject('Can not create UUID');
                 return;
             }
-            fs.readFile('registration','utf8',function(err,data){
+            fs.readFile('./registration','utf8',function(err,data){
                 if(err){
                     defer.reject('Can not read UUID')
                 }
@@ -93,7 +93,7 @@ var enrollDevice = function(){
 var checkDeviceKey = function(uuid){
     var defer = promise.defer();
 
-    public_model.getDeviceKey(uuid)
+    public_model.getDeviceKey({deviceKey:uuid})
         .then(function(rtn){
             if(rtn.length>0){
                 defer.resolve(true);
@@ -116,19 +116,33 @@ var registToS = function(uuid){
     param.deviceType = exports.deviceType;
     param.deviceDesc = 'Connected with : '+exports.targetDNS;
     param.use_yn = 'N';
-    param.reg_date = moment().toDate();
-    public_model.setDeviceKey(param)
+    param.regDate = moment().toDate();
+    public_model.getDeviceKey({parkinglotSeq:param.parkinglotSeq})
         .then(function(rtn){
-            defer.resolve(1);
+            if(rtn.length>0){
+                public_model.udtDeviceKey(param)
+                    .then(function(rtn){
+                        defer.resolve(1);
+                    },function(err){
+                        defer.reject(0);
+                    });
+            }else{
+                public_model.crtDeviceKey(param)
+                    .then(function(rtn){
+                        defer.resolve(1);
+                    },function(err){
+                        defer.reject(0);
+                    });
+            }
         },function(err){
-            defer.reject(1);
+            defer.reject(0);
         });
     return defer.promise;
 };
 
 var delReg = function(){
     console.log('----장비가 훼손되었거나 정보가 잘못되었습니다\n다시 등록하시기 바랍니다.');
-    fs.unlink('registration',function(){
+    fs.unlink('./registration',function(){
         process.exit(1);
     })
 };
