@@ -1,13 +1,15 @@
 'use strict';
 
-exports.parkinglotSeq = '111810';
-exports.port = 9001;
-exports.targetDNS = 'http://52.68.215.38:9001/';
-exports.deviceType = 'lpr';
-exports.mongodb = 'mongodb://52.68.215.38:27017/iot-mongo';
-exports.uuid = null;
-
 process.env.NODE_ENV = process.env.NODE_ENV? process.env.NODE_ENV : 'development';
+
+exports.parkinglotSeq = process.env.parkinglot? process.env.parkinglot : '111810';
+exports.port = process.env.port? process.env.port : 9001;
+
+exports.targetDNS = 'http://52.68.215.38:9001/';
+exports.mongodb = 'mongodb://52.68.215.38:27017/iot-mongo';
+
+exports.deviceType = 'lpr';
+exports.uuid = null;
 
 var express = require('express'),
     customLog = require('./lib/log'),
@@ -56,7 +58,6 @@ var enrollDevice = function(){
             id : uuid.v1({msecs: new Date().getTime()}),
             timestamp : moment().toJSON()
         };
-
         fs.writeFile('./registration', JSON.stringify(writeData), function(err){
             if(err){
                 defer.reject('Can not create UUID');
@@ -101,7 +102,7 @@ var checkDeviceKey = function(uuid){
             }
         },function(err){
             defer.reject(err);
-        })
+        });
 
     return defer.promise;
 };
@@ -116,7 +117,6 @@ var registToS = function(uuid){
     param.deviceDesc = 'Connected with : '+exports.targetDNS;
     param.use_yn = 'N';
     param.reg_date = moment().toDate();
-
     public_model.setDeviceKey(param)
         .then(function(rtn){
             defer.resolve(1);
@@ -137,6 +137,7 @@ var delReg = function(){
 exports.server = function(fn){
     enrollDevice()
         .then(function(uuid){
+            console.log(uuid)
             exports.uuid = uuid;
             var app = express();
             process.on('uncaughtException',function(err){
@@ -194,7 +195,7 @@ exports.server = function(fn){
                 });
 
                 app.listen(exports.port,function(){
-                    console.log('Successfully server started... : '+exports.port+' as '+process.env.NODE_ENV);
+                    console.log('Successfully server started for '+ exports.parkinglotSeq +'... : '+exports.port+' as '+process.env.NODE_ENV);
                 });
             })
         })
