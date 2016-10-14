@@ -3,7 +3,9 @@
  */
 var request = require('request'),
     moment = require('moment'),
-    config = require('../config');
+    config = require('../config'),
+    STRING = require('../string'),
+    DEFINE = STRING.DEFINE;
 
 /*
   param : {
@@ -19,7 +21,23 @@ var request = require('request'),
      ==> 파일로 적어놓는 걸로...
   }
 */
-
+/**
+ * @api {get} /on Request to ModuParking from Park
+ * @apiName Request to ModuParking
+ * @apiGroup On
+ *
+ * @apiParam {Integer} statusCode 입차:20/출차:30
+ * @apiParam {String} carNum 차량번호 (규격화 하지 않음)
+ * @apiParam {Date/String} timestamp 시간정보(YYYY-MM-DD HH:mm:ss)
+ * @apiParam {Integer} addCharge 초과금 발생 시 초과금액
+ *
+ * @apiSuccess {Integer} resultCode
+ * @apiSuccess {Array} result
+ * @apiSuccess {String} message
+ *
+ * @author leon
+ * @date 2016.10.14
+ */
 exports.getOn = function(req,res){
     var param = req.query;
 
@@ -34,7 +52,7 @@ exports.getOn = function(req,res){
     delete param.timestamp;
 
     if(Object.keys(param).length>0){
-        vaildParam.message = JSON.stringify(param);
+        vaildParam.elseParameter = JSON.stringify(param);
     }
 
     request({
@@ -52,6 +70,19 @@ exports.getOn = function(req,res){
     });
 };
 
+
+/**
+ * @api {post} /on url-to-app 리다이랙트
+ * @apiName url-to-app
+ * @apiGroup Search
+ *
+ * @apiParam {String} parkinglotSeq 주차장 고유번호
+ * @apiParam {String} type n/s n:nomal s:share
+ * @apiSuccess {Html}
+ *
+ * @author leon
+ * @date 2016.10.14
+ */
 exports.postOn = function(req,res){
     var param = req.body;
 
