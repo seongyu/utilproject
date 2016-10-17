@@ -72,16 +72,15 @@ exports.getOn = function(req,res){
 
 
 /**
- * @api {post} /on url-to-app 리다이랙트
- * @apiName url-to-app
- * @apiGroup Search
+ * @api {post} /on Server -> Park 요청전달
+ * @apiName 주차장요청
+ * @apiGroup On
  *
  * @apiParam {String} parkinglotSeq 주차장 고유번호
- * @apiParam {String} type n/s n:nomal s:share
  * @apiSuccess {Html}
  *
  * @author leon
- * @date 2016.10.14
+ * @date 2016.10.14 (미완성)
  */
 exports.postOn = function(req,res){
     var param = req.body;

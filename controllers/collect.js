@@ -113,7 +113,7 @@ exports.postCollect = function(req,res){
 
 /*
 
-Log작성이 프로세스에 영향으 미치는 형식
+Log작성 성공여부가 프로세스 흐름에 영향을 미치는 ver
 
 
  //로그작성을 위한 기입
