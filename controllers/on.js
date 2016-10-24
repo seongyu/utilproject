@@ -40,7 +40,7 @@ var request = require('request'),
  */
 exports.getOn = function(req,res){
     var param = req.query;
-
+    console.log(param);
     var vaildParam = {
         statusCode : param.statusCode?param.statusCode:20,
         carNum : param.carNum?param.carNum:'서울11가1111',
