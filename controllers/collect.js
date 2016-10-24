@@ -33,6 +33,7 @@ var collect_model = require('../models/collect'),
  * @author leon
  * @date 2016.10.14
  */
+
 exports.postCollect = function(req,res){
     var param = req.body;
 
@@ -169,6 +170,18 @@ Log작성 성공여부가 프로세스 흐름에 영향을 미치는 ver
  })
  });
 
+ var createLog = function(param){
+ var defer = promise.defer();
+ param.seq = null;
+ var log = new MongoLog.logger(param);
+ log.save(function(err){
+
+ if(err) defer.reject(err);
+ else defer.resolve(true)
+ });
+ return defer.promise;
+ };
+
  */
 
 var createLog = function(param){
@@ -180,6 +193,6 @@ var createLog = function(param){
         //if(err) defer.reject(err);
         //else defer.resolve(true)
     });
-    //return defer.promise;
+    //return defer.p                                                                                                                                                                                                                                     0romise;
     return 1;
 };

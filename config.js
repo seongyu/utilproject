@@ -5,7 +5,7 @@ process.env.NODE_ENV = process.env.NODE_ENV? process.env.NODE_ENV : 'development
 exports.parkinglotSeq = process.env.parkinglot? process.env.parkinglot : '111810';
 exports.port = process.env.port? process.env.port : 80;
 
-exports.targetDNS = 'http://52.68.215.38:9001/';
+exports.targetDNS = 'http://localhost:5301/';
 exports.mongodb = 'mongodb://52.68.215.38:27017/iot-mongo';
 
 exports.deviceType = 'lpr';
@@ -26,6 +26,7 @@ var express = require('express'),
     uuid = require('node-uuid');
 
 var enrollDevice = function(){
+    console.log(exports.port+' : '+exports.parkinglotSeq+' : '+process.env.NODE_ENV);
     var defer = promise.defer();
 
     if(fs.existsSync('./registration')){
