@@ -6,7 +6,7 @@ exports.parkinglotSeq = process.env.parkinglot? process.env.parkinglot : '111810
 exports.port = process.env.port? process.env.port : 80;
 
 exports.targetDNS = 'http://localhost:5301/';
-exports.mongodb = 'mongodb:/52.198.191.86:27017/iot-mongo';
+exports.mongodb = 'mongodb://52.198.191.86:27017/iot-mongo';
 
 exports.deviceType = 'lpr';
 exports.uuid = null;
@@ -20,6 +20,7 @@ var express = require('express'),
     methodOverride = require('method-override'),
     promise = require('q'),
     fs = require('fs'),
+    mongoose = require('mongoose'),
     moment = require('moment'),
     public_model = require('./models/public'),
     uuid = require('node-uuid');
@@ -163,6 +164,13 @@ exports.server = function(fn){
                     console.log('Catched Error => '+exception)
                 }
             });
+            // logServer connect
+            mongoose.connect(exports.mongodb, function(err) {
+                if (err) {
+                    console.log(chalk.red('Could not connect to MongoDB!'));
+                }
+                console.log('Successfully connected with... : '+exports.mongodb);
+            });
             app.set('views', path.join(__dirname, 'views'));
             app.set('view engine', 'jade');
 
@@ -180,7 +188,6 @@ exports.server = function(fn){
                     method : req.originalMethod,
                     data:req.query
                 });
-
                 next();
             });
 
@@ -200,7 +207,7 @@ exports.server = function(fn){
                     res.status(err.status || 500).send(err.message);
                 });
 
-                app.listen(exports.port,function(){
+                app.listen(exports.port,function(err){
                     console.log('Successfully server started for '+ exports.parkinglotSeq +'... : '+exports.port+' as '+process.env.NODE_ENV);
                 });
             })

@@ -1,16 +1,11 @@
 var routes = require('./routes/index'),
-    mongoose = require('mongoose'),
     config = require('./config.js');
+exports.mongodb = 'mongodb:/52.198.191.86:27017/iot-mongo';
 
 
 
 config.server(function(app,fn){
-    mongoose.connect(exports.mongodb, function(err) {
-        if (err) {
-            console.log(chalk.red('Could not connect to MongoDB!'));
-        }
-        console.log('Successfully connected with... : '+exports.mongodb);
-    });
+
     app.use('/', routes);
     fn();
 });
