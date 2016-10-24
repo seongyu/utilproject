@@ -169,7 +169,7 @@ exports.server = function(fn){
                 if (err) {
                     console.log(chalk.red('Could not connect to MongoDB!'));
                 }
-                console.log('Successfully connected with... : '+exports.mongodb);
+                console.log('MongoDB : Successfully connected with... : '+exports.mongodb);
             });
             app.set('views', path.join(__dirname, 'views'));
             app.set('view engine', 'jade');
