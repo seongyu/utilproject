@@ -20,7 +20,6 @@ var express = require('express'),
     methodOverride = require('method-override'),
     promise = require('q'),
     fs = require('fs'),
-    mongoose = require('mongoose'),
     moment = require('moment'),
     public_model = require('./models/public'),
     uuid = require('node-uuid');
@@ -119,8 +118,6 @@ var registToS = function(uuid){
     param.regDate = moment().toDate();
     public_model.getDeviceKey({parkinglotSeq:param.parkinglotSeq})
         .then(function(rtn){
-            console.log('registToS')
-            console.log(rtn)
             if(rtn.length>0){
                 public_model.udtDeviceKey(param)
                     .then(function(rtn){
@@ -153,7 +150,6 @@ var delReg = function(){
 exports.server = function(fn){
     enrollDevice()
         .then(function(uuid){
-            console.log(uuid);
             exports.uuid = uuid;
             var app = express();
             process.on('uncaughtException',function(err){
@@ -167,16 +163,6 @@ exports.server = function(fn){
                     console.log('Catched Error => '+exception)
                 }
             });
-
-
-            // logServer connect
-            mongoose.connect(exports.mongodb, function(err) {
-                if (err) {
-                    console.log(chalk.red('Could not connect to MongoDB!'));
-                }
-                console.log('Successfully connected witeh... : '+exports.mongodb);
-            });
-
             app.set('views', path.join(__dirname, 'views'));
             app.set('view engine', 'jade');
 
@@ -194,6 +180,7 @@ exports.server = function(fn){
                     method : req.originalMethod,
                     data:req.query
                 });
+
                 next();
             });
 
