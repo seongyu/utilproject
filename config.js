@@ -6,7 +6,7 @@ exports.parkinglotSeq = process.env.parkinglot? process.env.parkinglot : '111810
 exports.port = process.env.port? process.env.port : 80;
 
 exports.targetDNS = 'http://localhost:5301/';
-exports.mongodb = 'mongodb://52.68.215.38:27017/iot-mongo';
+exports.mongodb = 'mongodb:/52.198.191.86:27017/iot-mongo';
 
 exports.deviceType = 'lpr';
 exports.uuid = null;
@@ -151,7 +151,6 @@ var delReg = function(){
 exports.server = function(fn){
     enrollDevice()
         .then(function(uuid){
-            console.log(uuid)
             exports.uuid = uuid;
             var app = express();
             process.on('uncaughtException',function(err){
@@ -165,6 +164,9 @@ exports.server = function(fn){
                     console.log('Catched Error => '+exception)
                 }
             });
+
+
+            // logServer connect
             mongoose.connect(exports.mongodb, function(err) {
                 if (err) {
                     console.log(chalk.red('Could not connect to MongoDB!'));
