@@ -40,9 +40,8 @@ exports.postCollect = function(req,res){
     var uuid = req.params.uuid;
     var carNum = param.carNum;
     var statusCode = param.statusCode;
-console.log('arrive collect')
     //Device의 등록여부를 검사 -> 주차장일 경우 parkinglotSeq를 가져온다
-    public_model.getDeviceKey(uuid)
+    public_model.getDeviceKey({deviceKey:uuid})
         .then(function(rtn){
             var parkinglotSeq = rtn[0].parkinglotSeq;
             if(!parkinglotSeq){

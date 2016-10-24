@@ -40,17 +40,15 @@ var request = require('request'),
  */
 exports.getOn = function(req,res){
     var param = req.query;
-    console.log(param);
+
     var vaildParam = {
         statusCode : param.statusCode?param.statusCode:20,
         carNum : param.carNum?param.carNum:'서울11가1111',
         timestamp : param.timestamp?moment(param.timestamp).toJSON():moment().toJSON()
     };
-    console.log(vaildParam);
     delete param.statusCode;
     delete param.carNum;
     delete param.timestamp;
-    console.log('deleted...')
     if(Object.keys(param).length>0){
         vaildParam.elseParameter = JSON.stringify(param);
     }
