@@ -26,7 +26,6 @@ var express = require('express'),
     uuid = require('node-uuid');
 
 var enrollDevice = function(){
-    console.log(exports.port+' : '+exports.parkinglotSeq+' : '+process.env.NODE_ENV);
     var defer = promise.defer();
 
     if(fs.existsSync('./registration')){

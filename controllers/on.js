@@ -46,15 +46,15 @@ exports.getOn = function(req,res){
         carNum : param.carNum?param.carNum:'서울11가1111',
         timestamp : param.timestamp?moment(param.timestamp).toJSON():moment().toJSON()
     };
-
+    console.log(vaildParam);
     delete param.statusCode;
     delete param.carNum;
     delete param.timestamp;
-
+    console.log('deleted...')
     if(Object.keys(param).length>0){
         vaildParam.elseParameter = JSON.stringify(param);
     }
-
+    console.log('url : '+config.targetDNS+'parking/'+config.uuid+'/collect');
     request({
         url : config.targetDNS+'parking/'+config.uuid+'/collect',
         method : 'post',
@@ -66,6 +66,7 @@ exports.getOn = function(req,res){
             res.send(err);
             return;
         }
+        console.log(body);
         res.send(body)
     });
 };

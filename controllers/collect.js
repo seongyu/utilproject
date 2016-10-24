@@ -40,7 +40,7 @@ exports.postCollect = function(req,res){
     var uuid = req.params.uuid;
     var carNum = param.carNum;
     var statusCode = param.statusCode;
-
+console.log('arrive collect')
     //Device의 등록여부를 검사 -> 주차장일 경우 parkinglotSeq를 가져온다
     public_model.getDeviceKey(uuid)
         .then(function(rtn){
@@ -68,10 +68,10 @@ exports.postCollect = function(req,res){
                 logData.message = param.message;
             }
 
-
+            console.log('getDeviceKey')
             //로그작성이 프로세스에 영향을 미치지 않음
             createLog(logData);
-
+            console.log('createLog')
             //차량정보, 주차장정보를 통해 주차여부를 확인.
             //여기서부터 로직이 분할된다.
             collect_model.checkCarNum(chkParam)
