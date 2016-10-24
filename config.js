@@ -95,8 +95,6 @@ var checkDeviceKey = function(uuid){
 
     public_model.getDeviceKey({deviceKey:uuid})
         .then(function(rtn){
-            console.log('checkDeviceKey')
-            console.log(rtn)
             if(rtn.length>0){
                 defer.resolve(true);
             }else{
@@ -155,6 +153,7 @@ var delReg = function(){
 exports.server = function(fn){
     enrollDevice()
         .then(function(uuid){
+            console.log(uuid);
             exports.uuid = uuid;
             var app = express();
             process.on('uncaughtException',function(err){
