@@ -23,7 +23,8 @@ var express = require('express'),
     mongoose = require('mongoose'),
     moment = require('moment'),
     public_model = require('./models/public'),
-    uuid = require('node-uuid');
+    MongoLog = require('./models/log'),
+    uuid = require('uuid-1345');
 
 var enrollDevice = function(){
     var defer = promise.defer();
@@ -54,37 +55,43 @@ var enrollDevice = function(){
             }
         })
     }else{
-        var writeData = {
-            id : uuid.v1({msecs: new Date().getTime()}),
-            timestamp : moment().toJSON()
-        };
-        fs.writeFile('./registration', JSON.stringify(writeData), function(err){
-            if(err){
-                defer.reject('Can not create UUID');
-                return;
-            }
-            fs.readFile('./registration','utf8',function(err,data){
+        uuid.v5({
+            namespace: uuid.namespace.url,
+            name: "iotConnector",
+            msecs: new Date().getTime()
+        }, function (err, created_uuid) {
+            var writeData = {
+                id : created_uuid,
+                timestamp : moment().toJSON()
+            };
+            fs.writeFile('./registration', JSON.stringify(writeData), function(err){
                 if(err){
-                    defer.reject('Can not read UUID')
-                }
-                try{
-                    data = JSON.parse(data);
-                }catch(e){
-                    delReg();
+                    defer.reject('Can not create UUID');
                     return;
                 }
-                if(!data.id||data.id.length!==36){
-                    delReg();
-                }else{
-                    registToS(data.id)
-                        .then(function(rtn){
-                            defer.resolve(data.id);
-                        },function(err){
-                            delReg();
-                        });
-                }
+                fs.readFile('./registration','utf8',function(err,data){
+                    if(err){
+                        defer.reject('Can not read UUID')
+                    }
+                    try{
+                        data = JSON.parse(data);
+                    }catch(e){
+                        delReg();
+                        return;
+                    }
+                    if(!data.id||data.id.length!==36){
+                        delReg();
+                    }else{
+                        registToS(data.id)
+                            .then(function(rtn){
+                                defer.resolve(data.id);
+                            },function(err){
+                                delReg();
+                            });
+                    }
+                })
             })
-        })
+        });
     }
 
     return defer.promise;
@@ -92,7 +99,6 @@ var enrollDevice = function(){
 
 var checkDeviceKey = function(uuid){
     var defer = promise.defer();
-
     public_model.getDeviceKey({deviceKey:uuid})
         .then(function(rtn){
             if(rtn.length>0){
@@ -171,6 +177,7 @@ exports.server = function(fn){
                 }
                 console.log('MongoDB : Successfully connected with... : '+exports.mongodb);
             });
+
             app.set('views', path.join(__dirname, 'views'));
             app.set('view engine', 'jade');
 
@@ -212,4 +219,18 @@ exports.server = function(fn){
                 });
             })
         })
+};
+
+
+exports.createLog = function(param){
+    //var defer = promise.defer();
+    param.seq = null;
+    var log = new MongoLog.logger(param);
+    log.save(function(err){
+
+        //if(err) defer.reject(err);
+        //else defer.resolve(true)
+    });
+    //return defer.p                                                                                                                                                                                                                                     0romise;
+    return 1;
 };

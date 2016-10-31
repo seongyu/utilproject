@@ -5,6 +5,7 @@ var request = require('request'),
     moment = require('moment'),
     config = require('../config'),
     STRING = require('../string'),
+    public_model = require('../models/public'),
     DEFINE = STRING.DEFINE;
 
 /*
@@ -95,4 +96,32 @@ exports.postOn = function(req,res){
         resultCode : param.resultCode, //resultCode Of Acton
         message : param.message        //detail of Action
     });
+};
+
+exports.getHealth = function(req,res){
+    var param = req.query;
+
+    var statusCode = param.statusCode;
+    var uuid = config.uuid;
+    var timestamp = param.timestamp? param.timestamp : moment().toDate();
+
+    if(statusCode==90){
+        res.send(true);
+    }else{
+        var logData = {
+            uuid : config.uuid,
+            statusCode : statusCode,
+            timestamp : timestamp
+        };
+
+        public_model.getDeviceKey({deviceKey:uuid})
+            .then(function(rtn){
+                var parkinglotSeq = rtn[0].parkinglotSeq ? rtn[0].parkinglotSeq : 'undefined';
+                logData.parkinglotSeq = parkinglotSeq;
+                config.createLog(logData);
+
+                res.send(true);
+            });
+    }
+
 };

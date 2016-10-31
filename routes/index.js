@@ -11,6 +11,7 @@ router.get('/',function(req,res){
 });
 
 router
+    .get('/health',onCtrl.getHealth)
     .get('/on',onCtrl.getOn)
     .post('/on',onCtrl.postOn)
     .post('/parking/:uuid/collect',colCtrl.postCollect);

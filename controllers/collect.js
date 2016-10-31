@@ -4,8 +4,8 @@
 var collect_model = require('../models/collect'),
     public_model = require('../models/public'),
     promise = require('q'),
-    MongoLog = require('../models/log'),
     STRING = require('../string'),
+    config = require('../config'),
     DEFINE = STRING.DEFINE;
 
 /*
@@ -66,11 +66,8 @@ exports.postCollect = function(req,res){
             if(param.message){
                 logData.message = param.message;
             }
-
-            console.log('getDeviceKey')
             //로그작성이 프로세스에 영향을 미치지 않음
-            createLog(logData);
-            console.log('createLog')
+            config.createLog(logData);
             //차량정보, 주차장정보를 통해 주차여부를 확인.
             //여기서부터 로직이 분할된다.
             collect_model.checkCarNum(chkParam)
@@ -86,7 +83,7 @@ exports.postCollect = function(req,res){
                             statusCode : statusCode,
                             message : rt.userSeq +' / '+ rt.email+' / '+rt.userName
                         };
-                        createLog(logData);
+                        config.createLog(logData);
 
                         result = {
                             resultCode:200,
@@ -182,16 +179,3 @@ Log작성 성공여부가 프로세스 흐름에 영향을 미치는 ver
  };
 
  */
-
-var createLog = function(param){
-    //var defer = promise.defer();
-    param.seq = null;
-    var log = new MongoLog.logger(param);
-    log.save(function(err){
-
-        //if(err) defer.reject(err);
-        //else defer.resolve(true)
-    });
-    //return defer.p                                                                                                                                                                                                                                     0romise;
-    return 1;
-};

@@ -17,10 +17,10 @@
     "mongoose-auto-increment": "^5.0.1",
     "morgan": "~1.6.1",
     "mysql": "^2.11.1",
-    "node-uuid": "^1.4.7",
     "q": "^1.4.1",
     "request": "^2.74.0",
     "serve-favicon": "~2.3.0",
+    "uuid-1345": "^0.99.6",
     "winston": "^2.2.0"
   }
 }
