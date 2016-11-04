@@ -1,10 +1,14 @@
 extends layout
 
 block content
+  div #{process.env.NODE_ENV}
   h1= title
   h4 Service Mode => #{service}
   p= content
-  ui
-   each val in ip
-    li= val
-  p Device is looking for... => #{target}
+   if process.env.NODE_ENV == 'development'
+       ui
+        each val in ip
+         li= val
+       p Device is looking for... => #{target}
+   else
+       div © 2016 모두의주차장 All Right Reserved

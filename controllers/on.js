@@ -98,6 +98,18 @@ exports.postOn = function(req,res){
     });
 };
 
+/**
+ * @api {get} /health HealthCheck
+ * @apiName 주차장스테이터스확인
+ * @apiGroup On
+ *
+ * @apiParam {INT} statusCode 상태코드
+ * @apiParam {Date|String} timestamp 시간정보
+ * @apiSuccess {INT} 200
+ *
+ * @author leon
+ * @date 2016.10.31
+ */
 exports.getHealth = function(req,res){
     var param = req.query;
 

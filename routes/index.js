@@ -21,8 +21,8 @@ router
 var indexCtrl = function(req,res){
   util.getIP(function(ip){
     res.render('index',{
-        title : 'IoT_Connector',
-        content : 'IoT Connector ready to work on...',
+        title : 'Park Link',
+        content : 'Park Link ready to work...',
         ip : ip,
         service : process.env.NODE_ENV,
         target : config.targetDNS

@@ -8,12 +8,6 @@ var collect_model = require('../models/collect'),
     config = require('../config'),
     DEFINE = STRING.DEFINE;
 
-/*
- parkinglotSeq
- carNum
- statusCode
- 그 이외 json.stringify
- */
 /**
  * @api {post} /collect 디바이스에서 전달된 정보 수집
  * @apiName 디바이스요청컬렉팅
@@ -33,13 +27,13 @@ var collect_model = require('../models/collect'),
  * @author leon
  * @date 2016.10.14
  */
-
 exports.postCollect = function(req,res){
     var param = req.body;
 
     var uuid = req.params.uuid;
     var carNum = param.carNum;
     var statusCode = param.statusCode;
+
     //Device의 등록여부를 검사 -> 주차장일 경우 parkinglotSeq를 가져온다
     public_model.getDeviceKey({deviceKey:uuid})
         .then(function(rtn){
